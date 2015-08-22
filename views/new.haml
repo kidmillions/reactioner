@@ -1,1 +1,13 @@
 %h1 Add a question
+
+.pure-g
+  .pure-u-1-2
+    %form.pure-form.pure-form-stacked{:action=>"/question/create", :method=>"POST"}
+      %legend Submit a New Question
+      %input{:type=>"hidden", :name=>"_method", :value=>"POST"}
+      %label{:for=> 'name'} Question name
+      %input#name{:type=>"text", :name=>"question[name]", :placeholder=>"Ask a question..."}
+      %input.pure-button.pure-button-secondary{:type=>"submit", :name=>"submit", :value=>"Save"}
+  .pure-u-1-2
+    %p
+      %a.pure-button.pure-button-primary{:href=>"/"} home

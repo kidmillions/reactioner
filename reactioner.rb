@@ -44,15 +44,22 @@ module CORE
       haml :list
     end
 
-    get '/question/create' do
-      Question.create(
-        name: "Sample Question",
-      )
-
-      @message = 'CREATED, ASSHOLE'
+    post '/question/create' do
+      q = Question.new(params[:question])
+      if q.save
+        @message = 'CREATED, ASSHOLE'
+      else
+        "Error saving doc"
+      end
       haml :create
 
     end
+
+    get '/question/new' do
+      q = Question.new
+      haml :new
+    end
+
 
   end
 
