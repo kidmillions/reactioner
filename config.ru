@@ -1,11 +1,12 @@
 require 'bundler/setup'
-require 'sinatra'
-require 'haml'
-require './reactioner.rb'
+Bundler.require('default')
+require File.dirname(__FILE__) + '/reactioner.rb'
 
-set :environment, :development
-set :run, false
-set :raise_errors, true
+# set :environment, :development
+# set :run, false
+# set :raise_errors, true
 
 
-run Sinatra::Application
+map '/' do
+  run CORE::Main
+end

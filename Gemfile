@@ -2,7 +2,9 @@ source 'https://rubygems.org'
 
 gem 'haml', '4.0.7'
 gem 'sass', '3.4.17'
-gem 'sinatra', '1.4.6'
+gem 'sinatra', '1.4.6', :require => 'sinatra/base'
+
+gem 'sinatra-flash'
 
 # shotgun for reloading server
 gem 'shotgun', '0.9.1'
@@ -11,5 +13,5 @@ gem 'shotgun', '0.9.1'
 gem 'capistrano', '3.4.0'
 
 # ORM
-gem 'mongo_mapper'
+gem 'mongoid', '~> 5.0.0.beta'
 gem 'bson_ext'
