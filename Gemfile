@@ -4,6 +4,9 @@ gem 'haml', '4.0.7'
 gem 'sass', '3.4.17'
 gem 'sinatra', '1.4.6', :require => 'sinatra/base'
 
+# SOCKETS
+gem 'sinatra-websocket'
+
 gem 'sinatra-flash'
 
 # shotgun for reloading server

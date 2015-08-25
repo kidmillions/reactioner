@@ -5,8 +5,8 @@
     %form.pure-form.pure-form-stacked{:action=>"/question/create", :method=>"POST"}
       %legend Submit a New Question
       %input{:type=>"hidden", :name=>"_method", :value=>"POST"}
-      %label{:for=> 'name'} Question name
-      %input#name{:type=>"text", :name=>"question[name]", :placeholder=>"Ask a question..."}
+      %label{:for=> 'title'} Question name
+      %input#name{:type=>"title", :name=>"question[title]", :placeholder=>"Ask a question..."}
       %input.pure-button.pure-button-secondary{:type=>"submit", :name=>"submit", :value=>"Save"}
   .pure-u-1-2
     %p

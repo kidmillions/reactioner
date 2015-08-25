@@ -3,20 +3,30 @@ module CORE
   class Question
     include Mongoid::Document
     include Mongoid::Timestamps
-    field :name,                type: String
+    field :_id,                   type: BSON::ObjectId
+    field :title,                type: String
     # many :votes
     # field :published_at,        type: Time
   end
+
+  class Vote
+    include Mongoid::Document
+    field :content,              type: String
+    field :positive,             type: Integer, default: 0
+    field :negative,             type: Integer, default: 0
+
+
+  end
+
 
   class Main < Sinatra::Base
     register Sinatra::Flash
 
     configure :development do
-      enable :sessions, :logging, :dump_errors, :inline_templates
+      enable :sessions, :logging, :dump_errors
       enable :methodoverride
       set :root, File.dirname(__FILE__)
       logger = Logger.new($stdout)
-
       Mongoid.configure do |config|
         name = "reactiondb"
         host = "localhost"
@@ -38,10 +48,16 @@ module CORE
       haml :index
     end
 
-    get '/question/list' do
+    get '/question/all' do
       @title = 'All Questions'
       @questions = Question.all()
       haml :list
+    end
+
+
+    get '/question/show/:id' do |id|
+      @q = Question.find(id)
+      haml :show
     end
 
     post '/question/create' do
@@ -51,7 +67,7 @@ module CORE
       else
         "Error saving doc"
       end
-      haml :create
+      haml :index
 
     end
 
