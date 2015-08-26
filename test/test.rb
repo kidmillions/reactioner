@@ -17,6 +17,10 @@ describe "Hack Reactioner" do
     CORE::Main
   end
 
+  before do
+    CORE::Question.all.destroy
+  end
+
   it 'responds to index' do
     get '/'
     last_response.should.be.ok
@@ -33,6 +37,12 @@ describe "Hack Reactioner" do
     get '/question/new'
     last_response.should.be.ok
     last_response.body.should.include('Add a Question')
+
+    post '/question/create', {:question => {:title=>"Where am I?"}}, {}
+
+    last_response.body.should.include("Question created!")
+    CORE::Question.last.title.should.equal('Where am I?')
+
   end
 
   it 'shows a created question' do
@@ -42,7 +52,8 @@ describe "Hack Reactioner" do
     get '/question/show/' + id.to_s
     last_response.should.be.ok
     last_response.body.should.include('Does this work?')
-    CORE::Question.find(id).delete
   end
+
+
 
 end

@@ -170,11 +170,12 @@ module CORE
       end
       q.save
       if q.save
-        @message = 'Question created!'
+        flash[:notice] = "Question created"
+        # @message = 'Question created!'
       else
         "Error saving doc"
       end
-      haml :index
+      redirect '/'
 
     end
 
@@ -182,6 +183,20 @@ module CORE
       q = Question.new
       haml :new
     end
+
+    post '/vote/create/:id' do |question_id|
+      q = Question.find(question_id)
+      q.votes << Vote.new(params[:vote])
+      q.save!
+      if q.save
+        # @message = 'Ya voted, ya dingus!'
+        flash[:notice] = "Vote submitted"
+      else
+        "Error saving vote"
+      end
+      redirect '/'
+    end
+
 
 
   end

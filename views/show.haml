@@ -1,3 +1,6 @@
 %h1= @q.title
+%ul
+  - @q.votes.each do |vote|
+    %li= vote.content
 %p
   %a{:href=> '/question/all'} Back
