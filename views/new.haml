@@ -1,4 +1,4 @@
-%h1 Add a question
+%h1 Add a Question
 
 .pure-g
   .pure-u-1-2
@@ -6,7 +6,9 @@
       %legend Submit a New Question
       %input{:type=>"hidden", :name=>"_method", :value=>"POST"}
       %label{:for=> 'title'} Question name
-      %input#name{:type=>"title", :name=>"question[title]", :placeholder=>"Ask a question..."}
+      %input#name{:type=>"text", :name=>"question[title]", :placeholder=>"Ask a question..."}
+      %label{:for=> 'current'} Set as the current question?
+      %input#current{:type=>'checkbox', :name=>"question[is_current]", :value=>"is_current"}
       %input.pure-button.pure-button-secondary{:type=>"submit", :name=>"submit", :value=>"Save"}
   .pure-u-1-2
     %p

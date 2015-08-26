@@ -3,20 +3,20 @@ module CORE
   class Question
     include Mongoid::Document
     include Mongoid::Timestamps
-    field :_id,                  type: BSON::ObjectId
     field :title,                type: String
-    has_many :votes, dependent: :destroy
+    field :is_current,           type: Boolean, default: false
+    embeds_many :votes
+
     # many :votes
     # field :published_at,        type: Time
   end
 
   class Vote
     include Mongoid::Document
-    field :_id,                  type: BSON::ObjectId
     field :content,              type: String
     field :positive,             type: Integer, default: 0
     field :negative,             type: Integer, default: 0
-    belongs_to :question
+    embedded_in :question
 
   end
 
@@ -99,6 +99,22 @@ module CORE
       end
     end
 
+    configure :test do
+      enable :sessions
+      set :sockets, []
+      set :server, 'thin'
+      set :root, File.dirname(__FILE__)
+      Mongoid.configure do |config|
+        name = "reactiondbtest"
+        host = "localhost"
+        config.connect_to(name)
+        config.logger.level = Logger::UNKNOWN
+        # config.logger = Logger.new(nil)
+        #config.logger = Logger.new($stdout, :warn)
+      end
+    end
+
+
     before do
       @q = Question.all
       if @q.empty?
@@ -108,27 +124,28 @@ module CORE
 
     get '/' do
       @title = "Hack Reactions"
-      if !request.websocket?
-        @message = 'no socket detected'
-        haml :index
-      else
-        @message = []
-        request.websocket do |ws|
-          ws.onopen do
-            ws.send("Hello!")
-            settings.sockets << ws
-            @message << "Hello World!"
-          end
-
-          ws.onclose do
-            warn("websocket closed")
-            settings.sockets.delete(ws)
-            @message << 'websocket closed'
-          end
-
-        end
-
-      end
+      @current_question = Question.where(:is_current => true).first
+      # if !request.websocket?
+      #   @message = 'no socket detected'
+      #   haml :index
+      # else
+      #   @message = []
+      #   request.websocket do |ws|
+      #     ws.onopen do
+      #       ws.send("Hello!")
+      #       settings.sockets << ws
+      #       @message << "Hello World!"
+      #     end
+      #
+      #     ws.onclose do
+      #       warn("websocket closed")
+      #       settings.sockets.delete(ws)
+      #       @message << 'websocket closed'
+      #     end
+      #
+      #   end
+      #
+      # end
 
 
       haml :index
@@ -148,8 +165,12 @@ module CORE
 
     post '/question/create' do
       q = Question.new(params[:question])
+      if q.is_current?
+        Question.where(:is_current=>true).update_all(:is_current=>false)
+      end
+      q.save
       if q.save
-        @message = 'CREATED, ASSHOLE'
+        @message = 'Question created!'
       else
         "Error saving doc"
       end

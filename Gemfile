@@ -12,7 +12,7 @@ gem 'em-websocket'
 gem 'sinatra-flash'
 
 # shotgun for reloading server
-# gem 'shotgun', '0.9.1'
+gem 'shotgun', '0.9.1'
 
 # remote server automation and deployment
 gem 'capistrano', '3.4.0'
@@ -20,3 +20,7 @@ gem 'capistrano', '3.4.0'
 # ORM
 gem 'mongoid', '~> 5.0.0.beta'
 gem 'bson_ext'
+
+# bacon for unit testing
+gem 'rack-test'
+gem 'bacon'

@@ -2,6 +2,11 @@
 %hr
 #msgs
 %h1 Welcome to Hack Reactioner
+- if @current_question
+  .current-question
+    %h3 CURRENT question
+    %p= @current_question.title
+
 %p
   %a{:href=> '/question/new'} Add a question
 %p

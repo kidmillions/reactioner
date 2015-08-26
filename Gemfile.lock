@@ -11,6 +11,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    bacon (1.2.0)
     bson (3.2.1)
     bson_ext (1.5.1)
     builder (3.2.2)
@@ -43,8 +44,12 @@ GEM
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rake (10.4.2)
     sass (3.4.17)
+    shotgun (0.9.1)
+      rack (>= 1.0)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -68,12 +73,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bacon
   bson_ext
   capistrano (= 3.4.0)
   em-websocket
   haml (= 4.0.7)
   mongoid (~> 5.0.0.beta)
+  rack-test
   sass (= 3.4.17)
+  shotgun (= 0.9.1)
   sinatra (= 1.4.6)
   sinatra-flash
   thin
