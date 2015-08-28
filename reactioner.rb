@@ -82,10 +82,10 @@ module CORE
     register Sinatra::Flash
 
 
-
     configure :development do
       enable :sessions, :logging, :dump_errors
       enable :methodoverride
+      set :public_folder, 'public'
       set :sockets, []
       set :server, 'thin'
       set :root, File.dirname(__FILE__)
@@ -101,6 +101,7 @@ module CORE
 
     configure :test do
       enable :sessions
+      set :public_folder, 'public'
       set :sockets, []
       set :server, 'thin'
       set :root, File.dirname(__FILE__)
@@ -176,7 +177,6 @@ module CORE
         "Error saving doc"
       end
       redirect '/'
-
     end
 
     get '/question/new' do
@@ -196,6 +196,23 @@ module CORE
       end
       redirect '/'
     end
+
+    post '/vote/:id' do |vote_id|
+      vote_data = params
+      p vote_data
+      v = Question.find(vote_data[:question_id]).votes.find(vote_id)
+      if vote_data[:vote_type] == 'positive'
+        v.positive += 1
+      elsif vote_data[:vote_type] == 'negative'
+        v.negative += 1
+      end
+      v.save!
+
+      redirect '/'
+
+    end
+
+
 
 
 

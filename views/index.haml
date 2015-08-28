@@ -13,13 +13,18 @@
     %h2 Welcome to Hack Reactioner
     %h2 Current Question to Vote:
     - if @current_question
-      %h3= @current_question.title
+      .current-question
+        %h3= @current_question.title
   .pure-u-1-3
     - if @current_question
       %ul
       - @current_question.votes.each do |vote|
-        %li= vote.content
-
+        %li
+          .vote_count= (vote.positive - vote.negative)
+          = vote.content
+          .vote-links{:data=> {:vote_id=> vote.id, :question_id=> @current_question.id}}
+            %a.vote{:data=>{:vote=>'positive'}} &#9650;
+            %a.vote{:data=>{:vote=>'negative'}} &#9660;
 
       %form.pure-form{:action=>"/vote/create/#{@current_question.id}", :method=>"POST"}
         %fieldset
